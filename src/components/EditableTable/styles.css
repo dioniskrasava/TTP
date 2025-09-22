@@ -1,15 +1,18 @@
+/* Контейнер таблицы */
 .table-container {
   padding: 20px;
   font-family: Arial, sans-serif;
 }
 
+/* Основная таблица */
 .editable-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: collapse; /* Убираем двойные границы */
   border: 1px solid #ddd;
-  position: relative;
+  position: relative; /* Для позиционирования модального окна */
 }
 
+/* Стили заголовков и ячеек таблицы */
 .editable-table th,
 .editable-table td {
   padding: 10px;
@@ -17,44 +20,51 @@
   text-align: left;
 }
 
+/* Стили заголовков */
 .editable-table th {
-  background-color: #0a42aa;
+  background-color: #2d1a86;
   font-weight: bold;
 }
 
+/* Базовые стили редактируемой ячейки */
 .editable-cell {
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+  cursor: pointer; /* Указатель при наведении */
+  transition: background-color 0.2s ease; /* Плавное изменение фона */
 }
 
+/* Эффект при наведении на ячейку */
 .editable-cell:hover {
-  background-color: #bb6969;
+  background-color: #851515;
 }
 
+/* Стиль для ячейки в режиме редактирования */
 .editable-cell.editing {
-  background-color: #e3f2fd;
+  background-color: #e3f2fd; /* Голубой фон */
 }
 
+/* Фон модального окна */
 .modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: transparent;
-  z-index: 1000;
+  background-color: transparent; /* Прозрачный фон */
+  z-index: 1000; /* Поверх всего контента */
 }
 
+/* Модальное окно редактирования */
 .edit-modal {
   position: absolute;
   background-color: white;
-  border: 2px solid #007bff;
+  border: 2px solid #007bff; /* Синяя рамка */
   border-radius: 4px;
   padding: 10px;
-  z-index: 1001;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1001; /* Поверх фона */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень для эффекта всплытия */
 }
 
+/* Поле ввода в модальном окне */
 .edit-input {
   width: 100%;
   padding: 5px;
@@ -63,23 +73,26 @@
   margin-bottom: 5px;
 }
 
+/* Контейнер для кнопок */
 .edit-buttons {
   display: flex;
-  gap: 5px;
+  gap: 5px; /* Расстояние между кнопками */
 }
 
+/* Кнопка сохранения */
 .btn-save {
   padding: 3px 8px;
-  background-color: #28a745;
+  background-color: #28a745; /* Зеленый цвет */
   color: white;
   border: none;
   border-radius: 3px;
   cursor: pointer;
 }
 
+/* Кнопка отмены */
 .btn-cancel {
   padding: 3px 8px;
-  background-color: #dc3545;
+  background-color: #dc3545; /* Красный цвет */
   color: white;
   border: none;
   border-radius: 3px;
