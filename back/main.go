@@ -1,68 +1,33 @@
 package main
 
 import (
-	"net/http"
+	"backendGo/database"
+	"backendGo/routes"
+	"log"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	// Создаем роутер Gin
+	// Подключаемся к базе данных
+	database.Connect()
+
 	r := gin.Default()
 
-	// Настройка CORS - КРИТИЧЕСКИ ВАЖНО для связи с фронтендом
-	r.Use(func(c *gin.Context) {
-		c.Header("Access-Control-Allow-Origin", "http://localhost:3000") // URL твоего React-приложения
-		c.Header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-		c.Header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+	// Настройка CORS
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:3000"}
+	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}
+	config.AllowHeaders = []string{"Content-Type", "Authorization"}
+	r.Use(cors.New(config))
 
-		// Обработка preflight запросов (OPTIONS)
-		if c.Request.Method == "OPTIONS" {
-			c.AbortWithStatus(204)
-			return
-		}
+	// Настраиваем маршруты
+	routes.SetupRoutes(r)
 
-		c.Next()
-	})
-
-	// Простой эндпоинт для проверки работы
-	r.GET("/api/health", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Сервер работает!",
-		})
-	})
-
-	// Эндпоинт для получения данных (например, списка задач)
-	r.GET("/api/tasks", func(c *gin.Context) {
-		// Пока просто возвращаем статические данные
-		tasks := []gin.H{
-			{"id": 1, "title": "Изучить Go"},
-			{"id": 2, "title": "Написать API"},
-			{"id": 3, "title": "Связать с React"},
-		}
-		c.JSON(http.StatusOK, tasks)
-	})
-
-	// Эндпоинт для создания новой задачи (принимает JSON)
-	r.POST("/api/tasks", func(c *gin.Context) {
-		var newTask struct {
-			Title string `json:"title" binding:"required"`
-		}
-
-		// Парсим JSON из тела запроса
-		if err := c.BindJSON(&newTask); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "Неверные данные"})
-			return
-		}
-
-		// В реальном приложении здесь будем сохранять в базу данных
-		c.JSON(http.StatusCreated, gin.H{
-			"id":      4, // Временный ID
-			"title":   newTask.Title,
-			"message": "Задача создана!",
-		})
-	})
-
-	// Запускаем сервер на порту 8080
-	r.Run(":8080")
+	// Запускаем сервер
+	log.Println("Server starting on :8080...")
+	if err := r.Run(":8080"); err != nil {
+		log.Fatal("Failed to start server:", err)
+	}
 }
