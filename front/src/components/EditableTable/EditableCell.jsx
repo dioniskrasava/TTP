@@ -1,3 +1,4 @@
+// src/components/EditableTable/EditableCell.jsx
 import React from 'react';
 
 /**

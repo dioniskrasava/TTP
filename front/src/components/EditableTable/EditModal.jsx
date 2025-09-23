@@ -1,3 +1,4 @@
+// src/components/EditableTable/EditModal.jsx
 import React from 'react';
 // Импортируем утилиту для получения позиции ячейки
 import { getCellPosition } from '../../utils/tableHelpers';

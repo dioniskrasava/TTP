@@ -1,3 +1,4 @@
+// src/components/EditableTable/EditableTable.jsx
 import React, { useState } from 'react';
 // Импортируем дочерние компоненты
 import EditableCell from './EditableCell';
